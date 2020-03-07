@@ -49,7 +49,33 @@ def lambda_handler(event, context):
             },
             "body": ""
         }
+    
+    # Return current time setting
+    if not('text' in dict):
+        dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+        table = dynamodb.Table('LichessSlackAppInstallations')
+        keys = {
+            'team_id': dict['team_id'][0],
+            'channel_id': dict['channel_id'][0]
+        }
+        response = table.get_item(
+            Key = keys
+        )
+        slack_response = {
+           "response_type": "in_channel",
+           "text": "With the current setting, the daily puzzle will be posted at " + response['Item']['preferred_time'] + " UTC."
+        }
+        return {
+            "statusCode": 200,
+            "statusDescription": "200 OK",
+            "isBase64Encoded": False,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps(slack_response)
+        }
         
+    
     # Validate time parameter
     dict['text'][0] = dict['text'][0].replace('.', ':')
     m = re.match("([0-9]{2}):([0-9]{2})", dict['text'][0])
