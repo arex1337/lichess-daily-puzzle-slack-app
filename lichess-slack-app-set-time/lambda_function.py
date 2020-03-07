@@ -1,6 +1,5 @@
 import json
 import os
-import slack
 import requests
 import base64
 import urllib.parse
@@ -9,6 +8,7 @@ from botocore.exceptions import ClientError
 import hashlib
 import hmac
 from time import time
+import re
 
 def verify_slack_signature(slack_post_request, slack_signing_secret, body):
     slack_signing_secret = bytes(slack_signing_secret, 'utf-8')
@@ -49,6 +49,24 @@ def lambda_handler(event, context):
             },
             "body": ""
         }
+        
+    # Validate time parameter
+    dict['text'][0] = dict['text'][0].replace('.', ':')
+    m = re.match("([0-9]{2}):([0-9]{2})", dict['text'][0])
+    if not(m) or not(0 <= int(m[1]) <= 23) or not(0 <= int(m[2]) <= 59):
+        slack_response = {
+           "response_type": "in_channel",
+           "text": "ERROR: Time must be between 00:00 and 23:59."
+        }
+        return {
+            "statusCode": 200,
+            "statusDescription": "200 OK",
+            "isBase64Encoded": False,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps(slack_response)
+            }
     
     # Update installation configuration
     dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
