@@ -7,6 +7,7 @@ It is currently deployed to Amazon Web Services using:
 * AWS Lambda (running Python 3.8)
 * Amazon DynamoDB (datastore)
 * Amazon Route 53 (domain registrar and DNS)
+* AWS Certificate Manager (SSL/TLS certificate)
 * Application Load Balancer (targeting AWS Lambda functions)
 * Amazon CloudWatch Events (cron)
 
