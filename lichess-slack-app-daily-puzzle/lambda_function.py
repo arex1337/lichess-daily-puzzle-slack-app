@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     c = r.content
     o = json.loads(c)
     url = "https://lichess.org/training/" + str(o['puzzle']['id'])
-    imgurl = "https://lichess.org/training/export/png/" + str(o['puzzle']['id']) + ".png"
+    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['id']) + ".gif"
     
     # Broadcast
     config = Config(
