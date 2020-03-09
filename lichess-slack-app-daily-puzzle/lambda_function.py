@@ -26,7 +26,22 @@ def lambda_handler(event, context):
         preferred_time = datetime.strptime(strftime("%Y-%m-%d "+i['preferred_time'], gmtime()), '%Y-%m-%d %H:%M')
         last_executed = datetime.strptime(i['last_executed'], '%Y-%m-%d %H:%M:%S')
         if datetime.strptime(strftime("%Y-%m-%d %H:%M", gmtime()), '%Y-%m-%d %H:%M') >= preferred_time and last_executed < preferred_time:
-            print("Will post to " + i['object']['team']['id'] + " - " + i['object']['incoming_webhook']['channel_id'])
+            # Log execution to DB
+            keys = {
+                'team_id': i['object']['team']['id'],
+                'channel_id': i['object']['incoming_webhook']['channel_id']
+            }
+            response = table.update_item(
+                Key = keys,
+                UpdateExpression="set last_executed = :l",
+                ExpressionAttributeValues = {
+                    ':l': strftime("%Y-%m-%d %H:%M:%S", gmtime())
+                },
+                ReturnValues="UPDATED_NEW"
+            )
+            
+            # Post to channel
+            print("Posting to " + i['object']['team']['id'] + " - " + i['object']['incoming_webhook']['channel_id'])
             slack_data = {
                "blocks": [
                     {
@@ -48,18 +63,7 @@ def lambda_handler(event, context):
                 ]
             }
             requests.post(i['object']['incoming_webhook']['url'], data=json.dumps(slack_data), headers={'Content-Type': 'application/json'})
-            keys = {
-                'team_id': i['object']['team']['id'],
-                'channel_id': i['object']['incoming_webhook']['channel_id']
-            }
-            response = table.update_item(
-                Key = keys,
-                UpdateExpression="set last_executed = :l",
-                ExpressionAttributeValues = {
-                    ':l': strftime("%Y-%m-%d %H:%M:%S", gmtime())
-                },
-                ReturnValues="UPDATED_NEW"
-            )
+
         else:
             print("Will not post to " + i['object']['team']['id'] + " - " + i['object']['incoming_webhook']['channel_id'])
     return {
