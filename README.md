@@ -1,6 +1,6 @@
 # Daily Chess Puzzle by Lichess
 
-This is a Slack app that posts a daily chess puzzle from lichess.org to the channel in which the app is installed.
+This is a Slack app that posts a daily chess puzzle from lichess.org to the channel in which the app is installed. 
 
 It is currently deployed to Amazon Web Services using:
 
@@ -17,7 +17,9 @@ The aws_xray_sdk package is installed via an AWS Lambda layer.
 
 ## Getting Started
 
-Don't expect to run this locally or deploy it anywhere without modifications.
+You may install the app to your Slack workspace from https://lichess.org/daily-puzzle-slack
+
+Don't expect to run the code locally or deploy the app anywhere without modifications.
 
 ## License
 
