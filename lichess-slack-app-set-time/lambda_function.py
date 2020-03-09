@@ -58,8 +58,8 @@ def lambda_handler(event, context):
     # Return current time setting
     if not('text' in dict):
 		config = Config(
-			connect_timeout=2, 
-			read_timeout=2,
+			connect_timeout=0.7, 
+			read_timeout=0.7,
 			retries={'max_attempts': 3}
 		)
 		dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
@@ -106,8 +106,8 @@ def lambda_handler(event, context):
     
     # Update installation configuration
 	config = Config(
-		connect_timeout=2, 
-		read_timeout=2,
+		connect_timeout=0.7, 
+		read_timeout=0.7,
 		retries={'max_attempts': 3}
 	)
 	dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)

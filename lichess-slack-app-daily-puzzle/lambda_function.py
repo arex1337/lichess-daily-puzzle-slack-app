@@ -23,8 +23,8 @@ def lambda_handler(event, context):
     
     # Broadcast
     config = Config(
-        connect_timeout=2, 
-        read_timeout=2,
+        connect_timeout=0.7, 
+        read_timeout=0.7,
         retries={'max_attempts': 3}
     )
     dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
