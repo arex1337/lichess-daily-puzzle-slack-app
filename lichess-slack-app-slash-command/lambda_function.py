@@ -55,7 +55,7 @@ def lambda_handler(event, context):
     r = requests.get('https://lichess.org/training/daily', headers={'Accept': 'application/vnd.lichess.v5+json'})
     o = json.loads(r.content)
     url = "https://lichess.org/training/" + str(o['puzzle']['id'])
-    imgurl = "https://lichess.org/training/export/png/" + str(o['puzzle']['id']) + ".png"
+    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['id']) + ".gif"
     response = {
        "response_type": "in_channel",
        "text": url,
