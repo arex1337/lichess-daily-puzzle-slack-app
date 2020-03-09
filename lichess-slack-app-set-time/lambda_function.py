@@ -4,6 +4,7 @@ import requests
 import base64
 import urllib.parse
 import boto3
+from botocore.config import Config
 from botocore.exceptions import ClientError
 import hashlib
 import hmac
