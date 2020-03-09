@@ -4,6 +4,10 @@ import hmac
 import base64
 from time import time
 import os
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+
+patch_all()
 
 def verify_slack_signature(slack_post_request, slack_signing_secret, body):
     slack_signing_secret = bytes(slack_signing_secret, 'utf-8')

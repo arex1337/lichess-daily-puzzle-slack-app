@@ -5,11 +5,15 @@ This is a Slack app that posts a daily chess puzzle from lichess.org to the chan
 It is currently deployed to Amazon Web Services using:
 
 * AWS Lambda (running Python 3.8)
-* Amazon DynamoDB (datastore)
+* Amazon DynamoDB (serverless NoSQL datastore)
 * Amazon Route 53 (domain registrar and DNS)
 * AWS Certificate Manager (SSL/TLS certificate)
 * Application Load Balancer (targeting AWS Lambda functions)
 * Amazon CloudWatch Events (cron)
+* Amazon CloudWatch Logs (logging)
+* AWS X-Ray (monitoring)
+
+The aws_xray_sdk package is installed via an AWS Lambda layer.
 
 ## Getting Started
 
