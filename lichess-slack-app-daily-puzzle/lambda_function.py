@@ -17,7 +17,12 @@ def lambda_handler(event, context):
     imgurl = "https://lichess.org/training/export/png/" + str(o['puzzle']['id']) + ".png"
     
     # Broadcast
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+    config = Config(
+        connect_timeout=2, 
+        read_timeout=2,
+        retries={'max_attempts': 3}
+    )
+    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     response = table.scan()
     for i in response['Items']:

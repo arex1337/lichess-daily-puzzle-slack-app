@@ -1,6 +1,7 @@
 import json
 import requests
 import boto3
+from botocore.config import Config
 import sys
 from time import gmtime, strftime
 import base64
@@ -13,7 +14,12 @@ def lambda_handler(event, context):
     o = json.loads(r.content)
     
     # Persisting installation information
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+    config = Config(
+        connect_timeout=2, 
+        read_timeout=2,
+        retries={'max_attempts': 3}
+    )
+    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     response = table.put_item(
        Item = {

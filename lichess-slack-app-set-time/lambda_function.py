@@ -52,7 +52,12 @@ def lambda_handler(event, context):
     
     # Return current time setting
     if not('text' in dict):
-        dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+		config = Config(
+			connect_timeout=2, 
+			read_timeout=2,
+			retries={'max_attempts': 3}
+		)
+		dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
         table = dynamodb.Table('LichessSlackAppInstallations')
         keys = {
             'team_id': dict['team_id'][0],
@@ -95,7 +100,12 @@ def lambda_handler(event, context):
             }
     
     # Update installation configuration
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+	config = Config(
+		connect_timeout=2, 
+		read_timeout=2,
+		retries={'max_attempts': 3}
+	)
+	dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     keys = {
         'team_id': dict['team_id'][0],
