@@ -13,17 +13,17 @@ from aws_xray_sdk.core import patch_all
 patch_all()
 
 def lambda_handler(event, context):
-    
+
     # Get the daily puzzle
     r = requests.get('https://lichess.org/training/daily', headers={'Accept': 'application/vnd.lichess.v5+json'})
     c = r.content
     o = json.loads(c)
-    url = "https://lichess.org/training/" + str(o['puzzle']['id'])
-    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['id']) + ".gif"
-    
+    url = "https://lichess.org/training/" + str(o['puzzle']['realId'])
+    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['realId']) + ".gif"
+
     # Broadcast
     config = Config(
-        connect_timeout=0.7, 
+        connect_timeout=0.7,
         read_timeout=0.7,
         retries={'max_attempts': 3}
     )
@@ -49,7 +49,7 @@ def lambda_handler(event, context):
                 },
                 ReturnValues="UPDATED_NEW"
             )
-            
+
             # Post to channel
             print("Posting to " + i['object']['team']['id'] + " - " + i['object']['incoming_webhook']['channel_id'])
             slack_data = {
@@ -59,7 +59,7 @@ def lambda_handler(event, context):
                       "title": {
                          "type": "plain_text",
                          "text": imgurl
-                      },          
+                      },
                       "image_url": imgurl,
                       "alt_text": "A chess puzzle from lichess.org"
                     },
