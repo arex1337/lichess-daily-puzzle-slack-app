@@ -18,8 +18,8 @@ def lambda_handler(event, context):
     r = requests.get('https://lichess.org/training/daily', headers={'Accept': 'application/vnd.lichess.v5+json'})
     c = r.content
     o = json.loads(c)
-    url = "https://lichess.org/training/" + str(o['puzzle']['id'])
-    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['id']) + ".gif"
+    url = "https://lichess.org/training/" + str(o['puzzle']['realId'])
+    imgurl = "https://lichess1.org/training/export/gif/thumbnail/" + str(o['puzzle']['realId']) + ".gif"
     
     # Broadcast
     config = Config(
