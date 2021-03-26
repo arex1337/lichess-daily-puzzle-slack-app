@@ -88,7 +88,7 @@ def lambda_handler(event, context):
     
     # Validate time parameter
     dict['text'][0] = dict['text'][0].replace('.', ':')
-    m = re.match("([0-9]{2}):([0-9]{2})", dict['text'][0])
+    m = re.match("^([0-9]{2}):([0-9]{2})$", dict['text'][0])
     if not(m) or not(0 <= int(m[1]) <= 23) or not(0 <= int(m[2]) <= 59):
         slack_response = {
            "response_type": "in_channel",
