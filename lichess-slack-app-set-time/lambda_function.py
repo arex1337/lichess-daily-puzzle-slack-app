@@ -62,7 +62,7 @@ def lambda_handler(event, context):
 			read_timeout=0.7,
 			retries={'max_attempts': 3}
 		)
-		dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
+		dynamodb = boto3.resource('dynamodb', region_name='eu-west-3', config=config)
         table = dynamodb.Table('LichessSlackAppInstallations')
         keys = {
             'team_id': dict['team_id'][0],
@@ -110,7 +110,7 @@ def lambda_handler(event, context):
 		read_timeout=0.7,
 		retries={'max_attempts': 3}
 	)
-	dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
+	dynamodb = boto3.resource('dynamodb', region_name='eu-west-3', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     keys = {
         'team_id': dict['team_id'][0],
@@ -144,7 +144,7 @@ def lambda_handler(event, context):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "This app is not installed in this channel. <https://lichess-slack-app.org/lambda/lichess-slack-app-direct-install|Click here to install.>"
+                            "text": "This app is not installed in this channel. <https://slack-app-lichess.org/lambda/lichess-slack-app-direct-install|Click here to install.>"
                         }
                     }
                 ]
