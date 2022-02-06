@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         read_timeout=0.7,
         retries={'max_attempts': 3}
     )
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
+    dynamodb = boto3.resource('dynamodb', region_name='eu-west-3', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     response = table.scan()
     for i in response['Items']:
