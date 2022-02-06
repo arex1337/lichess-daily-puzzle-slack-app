@@ -8,7 +8,7 @@ patch_all()
 def lambda_handler(event, context):
     client_id = os.environ['client_id']
     scopes = "commands incoming-webhook"
-    redirect_uri = "https://lichess-slack-app.org/lambda/lichess-slack-app-authorize"
+    redirect_uri = "https://slack-app-lichess.org/lambda/lichess-slack-app-authorize"
 
     return {
         "statusCode": 302,
