@@ -14,7 +14,7 @@ patch_all()
 def lambda_handler(event, context):
     # Exchanging a temporary authorization code for an access token
     query_string = str(base64.b64decode(event['body']), encoding='utf-8')
-    r = requests.post('https://slack.com/api/oauth.v2.access', data={'client_id': os.environ['client_id'], 'client_secret': os.environ['client_secret'], 'code': event['queryStringParameters']['code'], 'redirect_uri': 'https://lichess-slack-app.org/lambda/lichess-slack-app-authorize'})
+    r = requests.post('https://slack.com/api/oauth.v2.access', data={'client_id': os.environ['client_id'], 'client_secret': os.environ['client_secret'], 'code': event['queryStringParameters']['code'], 'redirect_uri': 'https://slack-app-lichess.org/lambda/lichess-slack-app-authorize'})
     o = json.loads(r.content)
     
     # Persisting installation information
@@ -23,7 +23,7 @@ def lambda_handler(event, context):
         read_timeout=0.7,
         retries={'max_attempts': 3}
     )
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1', config=config)
+    dynamodb = boto3.resource('dynamodb', region_name='eu-west-3', config=config)
     table = dynamodb.Table('LichessSlackAppInstallations')
     response = table.put_item(
        Item = {
